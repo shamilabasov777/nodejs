@@ -9,6 +9,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh "docker build -t shamilabasov777/$JOB_NAME:$BUILD_NUMBER ."
 		    sh "docker login -u $username -p $password"
+		    sh docker tag firstimage Dockerfile/firstimage
 		    sh "docker push shamilabasov777/$JOB_NAME:$BUILD_NUMBER"
                 }
             }
