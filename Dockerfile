@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install --production
+RUN npm install
 
 CMD [ "node", "server.js" ]
