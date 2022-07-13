@@ -1,9 +1,13 @@
-FROM node:18-alpine3.15
+FROM node:slim
 
-WORKDIR /app
+WORKDIR /hw5
 
 COPY . .
 
-RUN npm ci --only=production
+WORKDIR /hw5/app
 
-CMD [ "node", "server.js" ]
+RUN npm install
+
+EXPOSE 3000
+
+CMD [ "node", "/hw5/app/server.js" ]
