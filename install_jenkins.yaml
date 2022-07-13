@@ -1,0 +1,37 @@
+- name: Install Java
+  hosts: server1
+  tasks:
+  - name: install java
+    package:
+      name: java-11-openjdk
+      state: present
+  - name: open firewalld rule
+    firewalld:
+      port: 80/tcp
+      port: 8080/tcp
+      state: enabled
+      immediate: yes
+      permanent: yes
+  - name: Ensure Jenkins repository is added
+    yum_repository:
+      name: jenkins-ci
+      description: jenkins-ci package repository
+      baseurl: http://pkg.jenkins.io/redhat
+      gpgkey: https://pkg.jenkins.io/redhat/jenkins.io.key
+      gpgcheck: yes
+  - name: Ensure gpp key is imported
+    rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat/jenkins.io.key
+  - name: Ensure systemd daemon reloaded
+    command: systemctl daemon-reload
+  - name: Jenkins package installed
+    package:
+      name: jenkins
+      state: present
+  - name: Jenkins service enabled and started
+    service:
+      name: jenkins
+      state: started
+      enabled: yes
+
